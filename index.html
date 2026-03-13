@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Go Out With Me?</title>
+<link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet"><style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff00ff, #6a0dad);
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    color:white;
+    margin-bottom:40px;
+    font-family: 'Italianno', cursive;
+    font-size:60px;
+    letter-spacing:1px;
+}
+
+button{
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin:10px;
+}
+
+#yesBtn{
+    background:#28a745;
+    color:white;
+}
+
+#noBtn{
+    background:#ff4d4d;
+    color:white;
+    position:absolute;
+}
+
+.celebrate{
+    font-size:70px;
+    color:white;
+    font-family:'Italianno', cursive;
+    text-align:center;
+    line-height:1.5;
+    letter-spacing:3px;
+    animation:pop 1s ease infinite alternate;
+}
+
+.romantic-bg{
+    background: linear-gradient(135deg,#ff758c,#ff7eb3,#ffb6c1);
+    transition: background 1s ease;
+}
+
+#teddy{
+    position:absolute;
+    left:60%;
+    top:48%;
+    pointer-events:none;
+    transition:0.2s;
+}
+
+@keyframes pop{
+    from{transform:scale(1);}
+    to{transform:scale(1.2);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Do you wanna go out with me? 💙</h1>
+
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+    <img id="teddy" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" width="80">
+
+    <div id="result"></div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const result = document.getElementById("result");
+
+/* Move NO button randomly */
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("click", moveButton);
+
+const teddy = document.getElementById("teddy");
+
+// initial placement beside No button
+window.onload = () => {
+    const rect = noBtn.getBoundingClientRect();
+    teddy.style.left = rect.right + 20 + "px";
+    teddy.style.top = rect.top + "px";
+};
+
+function moveButton(){
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 80);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // teddy follows but with space from the button
+    teddy.style.left = (x + 100) + "px";
+    teddy.style.top = (y - 20) + "px";
+}
+
+/* Celebration when YES is clicked */
+yesBtn.addEventListener("click", () => {
+
+    // remove question and buttons
+    document.querySelector("h1").style.display = "none";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    // change background
+    document.body.classList.add("romantic-bg");
+
+    // show celebration message
+    result.innerHTML = `
+    <div class="celebrate">
+        🎉I LOVE YOU SWEETHEART 💖 <br>
+        SEE YOU ON SUNDAY BABYGIRL❤️
+    </div>
+    `;
+
+    startConfetti();
+});
+
+/* Simple confetti animation */
+function startConfetti(){
+    for(let i=0;i<100;i++){
+        const confetti = document.createElement("div");
+        confetti.innerHTML="🎉";
+        confetti.style.position="absolute";
+        confetti.style.left=Math.random()*window.innerWidth+"px";
+        confetti.style.top="-20px";
+        confetti.style.fontSize="24px";
+        confetti.style.animation="fall 3s linear forwards";
+        document.body.appendChild(confetti);
+    }
+}
+
+</script>
+
+<style>
+@keyframes fall{
+    to{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+}
+</style>
+
+</body>
+</html>
